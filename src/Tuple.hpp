@@ -23,17 +23,13 @@ struct Tuple {
     return std::sqrt(x * x + y * y + z * z + w * w);
   }
 
-  constexpr Tuple normalized() const noexcept {
+  [[nodiscard]] constexpr Tuple normalized() const noexcept {
     const auto m = magnitude();
     return Tuple(x / m, y / m, z / m, w / m);
   }
 
-  [[nodiscard]] friend constexpr bool operator==(const Tuple& lhs,
-                                                 const Tuple& rhs) noexcept {
-    return aprox_equal(lhs.x, rhs.x, 0.00001f) &&
-           aprox_equal(lhs.y, rhs.y, 0.00001f) &&
-           aprox_equal(lhs.z, rhs.z, 0.00001f) &&
-           aprox_equal(lhs.w, rhs.w, 0.00001f);
+  [[nodiscard]] constexpr Tuple operator-() const noexcept {
+    return Tuple(-x, -y, -z, -w);
   }
 
   constexpr Tuple& operator+=(const Tuple& rhs) noexcept {
@@ -52,14 +48,6 @@ struct Tuple {
     return *this;
   }
 
-  constexpr Tuple& operator-() noexcept {
-    x = -x;
-    y = -y;
-    z = -z;
-    w = -w;
-    return *this;
-  }
-
   constexpr Tuple& operator*=(float rhs) noexcept {
     x *= rhs;
     y *= rhs;
@@ -74,6 +62,14 @@ struct Tuple {
     z /= rhs;
     w /= rhs;
     return *this;
+  }
+
+  [[nodiscard]] friend constexpr bool operator==(const Tuple& lhs,
+                                                 const Tuple& rhs) noexcept {
+    return aprox_equal(lhs.x, rhs.x, 0.00001f) &&
+           aprox_equal(lhs.y, rhs.y, 0.00001f) &&
+           aprox_equal(lhs.z, rhs.z, 0.00001f) &&
+           aprox_equal(lhs.w, rhs.w, 0.00001f);
   }
 
   float x;
