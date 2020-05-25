@@ -11,8 +11,8 @@ SCENARIO("A tuple with w=1.0 is a point") {
       STATIC_REQUIRE(a.z == 3.1f);
       STATIC_REQUIRE(a.w == 1.0f);
     }
-    AND_THEN("a is a point") { STATIC_REQUIRE(a.is_point()); }
-    AND_THEN("a is not a vector") { STATIC_REQUIRE_FALSE(a.is_vector()); }
+    AND_THEN("a is a point") { STATIC_REQUIRE(is_point(a)); }
+    AND_THEN("a is not a vector") { STATIC_REQUIRE_FALSE(is_vector(a)); }
   }
 }
 
@@ -25,8 +25,8 @@ SCENARIO("A tuple with w=0 is a vector") {
       STATIC_REQUIRE(a.z == 3.1f);
       STATIC_REQUIRE(a.w == 0.0f);
     }
-    AND_THEN("a is not a point") { STATIC_REQUIRE_FALSE(a.is_point()); }
-    AND_THEN("a is a vector") { STATIC_REQUIRE(a.is_vector()); }
+    AND_THEN("a is not a point") { STATIC_REQUIRE_FALSE(is_point(a)); }
+    AND_THEN("a is a vector") { STATIC_REQUIRE(is_vector(a)); }
   }
 }
 
@@ -57,21 +57,21 @@ SCENARIO("Adding two tuples") {
   AND_GIVEN("a2 <- vector(4, 5, 6)") {
     constexpr auto a1 = vector(1, 2, 3);
     constexpr auto a2 = vector(4, 5, 6);
-    THEN("a1 + a2 is a vector") { STATIC_REQUIRE((a1 + a2).is_vector()); }
+    THEN("a1 + a2 is a vector") { STATIC_REQUIRE(is_vector(a1 + a2)); }
   }
   GIVEN("a1 <- vector(1, 2, 3)")
   AND_GIVEN("a2 <- point(4, 5, 6)") {
     constexpr auto a1 = vector(1, 2, 3);
     constexpr auto a2 = point(4, 5, 6);
-    THEN("a1 + a2 is a point") { STATIC_REQUIRE((a1 + a2).is_point()); }
+    THEN("a1 + a2 is a point") { STATIC_REQUIRE(is_point(a1 + a2)); }
   }
   GIVEN("a1 <- point(1, 2, 3)")
   AND_GIVEN("a2 <- point(4, 5, 6)") {
     constexpr auto a1 = point(1, 2, 3);
     constexpr auto a2 = point(4, 5, 6);
     THEN("a1 + a2 is neither a point nor a vector") {
-      STATIC_REQUIRE_FALSE((a1 + a2).is_vector());
-      STATIC_REQUIRE_FALSE((a1 + a2).is_point());
+      STATIC_REQUIRE_FALSE(is_vector(a1 + a2));
+      STATIC_REQUIRE_FALSE(is_point(a1 + a2));
     }
   }
 }
@@ -160,26 +160,26 @@ SCENARIO("Dividing a tuple by an escalar") {
 SCENARIO("Computing the magnitude of vectors") {
   GIVEN("v <- vector(1, 0, 0)") {
     constexpr auto v = vector(1, 0, 0);
-    THEN("v.magnitude() = 1") { STATIC_REQUIRE(v.magnitude() == 1); }
+    THEN("v.magnitude() = 1") { STATIC_REQUIRE(magnitude(v) == 1); }
   }
   GIVEN("v <- vector(0, 1, 0)") {
     constexpr auto v = vector(0, 1, 0);
-    THEN("v.magnitude() = 1") { STATIC_REQUIRE(v.magnitude() == 1); }
+    THEN("v.magnitude() = 1") { STATIC_REQUIRE(magnitude(v) == 1); }
   }
   GIVEN("v <- vector(0, 0, 1)") {
     constexpr auto v = vector(0, 0, 1);
-    THEN("v.magnitude() = 1") { STATIC_REQUIRE(v.magnitude() == 1); }
+    THEN("v.magnitude() = 1") { STATIC_REQUIRE(magnitude(v) == 1); }
   }
   GIVEN("v <- vector(1, 2, 3)") {
     constexpr auto v = vector(1, 2, 3);
     THEN("v.magnitude() = sqrt(14)") {
-      STATIC_REQUIRE(v.magnitude() == std::sqrt(14.0f));
+      STATIC_REQUIRE(magnitude(v) == std::sqrt(14.0f));
     }
   }
   GIVEN("v <- vector(-1, -2, -3)") {
     constexpr auto v = vector(-1, -2, -3);
     THEN("v.magnitude() = sqrt(14)") {
-      STATIC_REQUIRE(v.magnitude() == std::sqrt(14.0f));
+      STATIC_REQUIRE(magnitude(v) == std::sqrt(14.0f));
     }
   }
 }
@@ -188,21 +188,21 @@ SCENARIO("Normalizing some vectors") {
   GIVEN("v <- vector(4, 0, 0)") {
     constexpr auto v = vector(4, 0, 0);
     THEN("v.normalize() = vector(1, 0, 0)") {
-      STATIC_REQUIRE(v.normalized() == vector(1, 0, 0));
+      STATIC_REQUIRE(normalize(v) == vector(1, 0, 0));
     }
   }
   GIVEN("v <- vector(1, 2, 3)") {
     constexpr auto v = vector(1, 2, 3);
     THEN("v.normalize() = aproximately vector(0.26726, 0.53452, 0.80178)") {
-      STATIC_REQUIRE(v.normalized() == vector(0.26726f, 0.53452f, 0.80178f));
+      STATIC_REQUIRE(normalize(v) == vector(0.26726f, 0.53452f, 0.80178f));
     }
   }
   GIVEN("v <- vector(1, 2, 3)") {
     constexpr auto v = vector(1, 2, 3);
     WHEN("norm <- v.get_normalized()") {
-      constexpr auto norm = v.normalized();
+      constexpr auto norm = normalize(v);
       THEN("norm = aproximately vector(0.26726, 0.53452, 0.80178)") {
-        STATIC_REQUIRE(aprox_equal(norm.magnitude(), 1.0f, 0.00001f));
+        STATIC_REQUIRE(aprox_equal(magnitude(norm), 1.0f, 0.00001f));
       }
     }
   }

@@ -11,27 +11,6 @@ struct Tuple {
   constexpr Tuple(float x_, float y_, float z_, float w_) noexcept
       : x{x_}, y{y_}, z{z_}, w{w_} {}
 
-  [[nodiscard]] constexpr bool is_point() const noexcept {
-    return aprox_equal(w, 1.0f, 0.00001f);
-  }
-
-  [[nodiscard]] constexpr bool is_vector() const noexcept {
-    return aprox_equal(w, 0.0f, 0.00001f);
-  }
-
-  [[nodiscard]] constexpr float magnitude() const noexcept {
-    return std::sqrt(x * x + y * y + z * z + w * w);
-  }
-
-  [[nodiscard]] constexpr Tuple normalized() const noexcept {
-    const auto m = magnitude();
-    return Tuple(x / m, y / m, z / m, w / m);
-  }
-
-  [[nodiscard]] constexpr Tuple operator-() const noexcept {
-    return Tuple(-x, -y, -z, -w);
-  }
-
   constexpr Tuple& operator+=(const Tuple& rhs) noexcept {
     x += rhs.x;
     y += rhs.y;
@@ -86,6 +65,32 @@ struct Tuple {
   return Tuple(x, y, z, 0.0f);
 }
 
+[[nodiscard]] constexpr bool is_point(const Tuple& tup) noexcept {
+  return aprox_equal(tup.w, 1.0f, 0.00001f);
+}
+
+[[nodiscard]] constexpr bool is_vector(const Tuple& tup) noexcept {
+  return aprox_equal(tup.w, 0.0f, 0.00001f);
+}
+
+[[nodiscard]] constexpr float magnitude(const Tuple& tup) noexcept {
+  return std::sqrt(tup.x * tup.x + tup.y * tup.y + tup.z * tup.z +
+                   tup.w * tup.w);
+}
+
+[[nodiscard]] constexpr Tuple normalize(Tuple tup) noexcept {
+  const auto m = magnitude(tup);
+  tup.x /= m;
+  tup.y /= m;
+  tup.z /= m;
+  tup.w /= m;
+  return tup;
+}
+
+[[nodiscard]] constexpr Tuple operator-(const Tuple& tup) noexcept {
+  return Tuple(-tup.x, -tup.y, -tup.z, -tup.w);
+}
+
 [[nodiscard]] constexpr Tuple operator+(Tuple lhs, const Tuple& rhs) noexcept {
   lhs += rhs;
   return lhs;
@@ -111,8 +116,8 @@ struct Tuple {
 }
 
 [[nodiscard]] constexpr Tuple cross(const Tuple& a, const Tuple& b) noexcept {
-  assert(a.is_vector());
-  assert(b.is_vector());
+  assert(is_vector(a));
+  assert(is_vector(b));
   return vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z,
                 a.x * b.y - a.y * b.x);
 }
