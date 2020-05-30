@@ -1,5 +1,8 @@
+#include <fstream>
 #include <iostream>
 
+#include "../src/Canvas.hpp"
+#include "../src/Ppm.hpp"
 #include "../src/Tuple.hpp"
 
 std::string to_string(const Tuple& tup) {
@@ -24,14 +27,24 @@ constexpr Projectile tick(Projectile proj, const Environment& env) {
 }
 
 int main() {
-  Projectile p = {point(0.f, 1.f, 0.f), vector(1.f, 1.f, 0.f).normalized()};
-  Environment e = {vector(0.f, -0.1f, 0.f), vector(-0.01f, 0.f, 0.f)};
+  const Environment e = {vector(0.f, -0.05f, 0.f), vector(-0.01f, 0.f, 0.f)};
+  Projectile p = {point(0.f, 1.f, 0.f), normalize(vector(1.f, 1.8f, 0.f)) * 8};
+  Canvas c(800, 600);
 
-  while (p.position.y > 0) {
+  for (;;) {
+    const auto pixel_x = lround(p.position.x);
+    const auto pixel_y = c.height() - lround(p.position.y);
+
+    if (!in_range(c, pixel_x, pixel_y)) break;
+
     std::cout << "Position: " << to_string(p.position)
               << ", Velocity: " << to_string(p.velocity) << '\n';
+
+    c.write_pixel(pixel_x, pixel_y, Color(0.f, 1.f, 0.2f));
     p = tick(std::move(p), e);
   }
 
+  std::ofstream ostrm("projectile_trace.ppm");
+  ostrm << ppm::to_ppm(c);
   return 0;
 }

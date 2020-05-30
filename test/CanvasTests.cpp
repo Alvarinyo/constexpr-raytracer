@@ -81,7 +81,7 @@ SCENARIO("Writing pixels to a canvas") {
     const Color red(1.f, 0.f, 0.f);
     WHEN("c.write_pixel(2, 3, red)") {
       const auto c2 = [c = c, &red]() mutable {
-        c.write_pixel(2u, 3u, red);
+        c.write_pixel(2, 3, red);
         return c;
       }();
       THEN("c.pixel_at(2, 3) = red") { REQUIRE(c2.pixel_at(2, 3) == red); }
@@ -121,9 +121,9 @@ SCENARIO("Constructing the PPM pixel data") {
     AND_WHEN("c.write_pixel(2, 1, c1)")
     AND_WHEN("c.write_pixel(4, 2, c1)")
     AND_WHEN("ppm <- c.to_ppm()") {
-      c.write_pixel(0u, 0u, c1);
-      c.write_pixel(2u, 1u, c2);
-      c.write_pixel(4u, 2u, c3);
+      c.write_pixel(0, 0, c1);
+      c.write_pixel(2, 1, c2);
+      c.write_pixel(4, 2, c3);
       const std::string ppm = ppm::to_ppm(c);
 
       THEN(R"(lines 4-6 of ppm are: 
@@ -150,8 +150,8 @@ SCENARIO("Splitting long lines in PPM files") {
     Canvas c(10, 2);
     WHEN("Every pixel of c is set to Color(1, 0.8, 0.6)")
     AND_WHEN("ppm <- c.to_ppm()") {
-      for (size_t y = 0; y < c.height(); ++y) {
-        for (size_t x = 0; x < c.width(); ++x) {
+      for (long y = 0; y < c.height(); ++y) {
+        for (long x = 0; x < c.width(); ++x) {
           c.write_pixel(x, y, Color(1.f, 0.8f, 0.6f));
         }
       }
