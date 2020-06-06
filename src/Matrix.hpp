@@ -21,7 +21,13 @@ class Matrix {
   [[nodiscard]] constexpr Matrix() noexcept = default;
 
   [[nodiscard]] constexpr Matrix(Storage data) noexcept
-      : storage_{std::move(data)} {}
+      : storage_(std::move(data)) {}
+
+  [[nodiscard]] constexpr Matrix(const Matrix& other) noexcept
+      : storage_(other.storage_) {}
+
+  [[nodiscard]] constexpr Matrix(Matrix&& other) noexcept
+      : storage_(std::move(other.storage_)) {}
 
   template <strict_float... Args>
   [[nodiscard]] constexpr Matrix(Args... args)
@@ -57,7 +63,7 @@ class Matrix {
     return storage_.cend();
   }
 
- private:
+ protected:
   Storage storage_;
 };
 
