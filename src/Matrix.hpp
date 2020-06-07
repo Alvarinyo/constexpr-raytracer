@@ -12,13 +12,13 @@ class Matrix {
  public:
   using Storage = std::array<float, static_cast<size_t>(Cols* Rows)>;
 
-  using value_type = Storage::value_type;
-  using const_reference = Storage::const_reference;
-  using difference_type = Storage::difference_type;
-  using reference = Storage::reference;
-  using size_type = Storage::size_type;
-  using iterator = Storage::iterator;
-  using const_iterator = Storage::const_iterator;
+  using value_type = typename Storage::value_type;
+  using const_reference = typename Storage::const_reference;
+  using difference_type = typename Storage::difference_type;
+  using reference = typename Storage::reference;
+  using size_type = typename Storage::size_type;
+  using iterator = typename Storage::iterator;
+  using const_iterator = typename Storage::const_iterator;
 
   [[nodiscard]] constexpr Matrix() noexcept = default;
 
