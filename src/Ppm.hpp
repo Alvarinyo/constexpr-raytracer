@@ -1,3 +1,6 @@
+#ifndef CONSTEXPR_RAYTRACER_PPM_HPP
+#define CONSTEXPR_RAYTRACER_PPM_HPP
+
 #include <cmath>
 #include <string>
 
@@ -11,10 +14,10 @@ namespace ppm {
 }
 
 [[nodiscard]] std::string pixel_string(const Canvas& canvas) noexcept {
-  static constexpr auto normalize_float = [](float pixel) {
-    if (pixel < 0.f) return 0l;
-    if (pixel > 1.f) return 255l;
-    return std::lround(pixel * 255.f);
+  static constexpr auto normalize_float = [](float color_value) {
+    if (color_value < 0.f) return 0l;
+    if (color_value > 1.f) return 255l;
+    return std::lround(color_value * 255.f);
   };
 
   std::string pixel_str;
@@ -57,3 +60,5 @@ void split_lines(std::string& pixel_string) noexcept {
 }
 
 }  // namespace ppm
+
+#endif

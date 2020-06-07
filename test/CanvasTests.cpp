@@ -1,5 +1,7 @@
+#include <algorithm>
 #include <catch2/catch.hpp>
-#include <string_view>
+#include <string>
+#include <vector>
 
 #include "../src/Canvas.hpp"
 #include "../src/Color.hpp"

@@ -1,8 +1,6 @@
 #ifndef CONSTEXPR_RAYTRACER_MATH_HPP
 #define CONSTEXPR_RAYTRACER_MATH_HPP
 
-#include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <concepts>
 

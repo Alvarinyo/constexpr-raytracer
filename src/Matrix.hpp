@@ -1,6 +1,8 @@
+#ifndef CONSTEXPR_RAYTRACER_MATRIX_HPP
+#define CONSTEXPR_RAYTRACER_MATRIX_HPP
+
 #include <algorithm>
 #include <array>
-#include <functional>
 
 #include "Math.hpp"
 #include "Tuple.hpp"
@@ -222,3 +224,5 @@ template <int Rows, int Cols>
   return result;
 }
 }  // namespace MatrixUtils
+
+#endif
