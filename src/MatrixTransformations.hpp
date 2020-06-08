@@ -31,7 +31,7 @@ class Transformation : public Matrix<4> {
  public:
   [[nodiscard]] constexpr Transformation() noexcept : Matrix<4>{} {};
 
-  [[nodiscard]] constexpr Transformation(Matrix<4>::Storage data) noexcept
+  [[nodiscard]] constexpr Transformation(Matrix<4>::storage_t data) noexcept
       : Matrix<4>(std::move(data)) {}
 
   [[nodiscard]] constexpr Transformation(const Matrix<4>& other) noexcept

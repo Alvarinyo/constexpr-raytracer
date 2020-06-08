@@ -2,6 +2,8 @@
 
 #include "../src/Tuple.hpp"
 
+using namespace TupleUtil;
+
 SCENARIO("A tuple with w=1.0 is a point") {
   GIVEN("a <- tuple(4.3, -4.2, 3.1, 1.0)") {
     constexpr Tuple a(4.3f, -4.2f, 3.1f, 1.0f);

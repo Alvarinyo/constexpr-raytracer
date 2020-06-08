@@ -12,4 +12,8 @@ constexpr bool approx_equal(float a, float b,
   return std::abs(a - b) < epsilon;
 }
 
+constexpr int iround(float f) noexcept {
+  return static_cast<int>(std::lround(f));
+}
+
 #endif

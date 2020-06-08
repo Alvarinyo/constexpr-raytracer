@@ -7,9 +7,11 @@
 #include "../src/Ppm.hpp"
 #include "../src/Tuple.hpp"
 
+using namespace TupleUtil;
+
 void paint_point(Canvas& canvas, float x, float z) {
-  const auto canvas_x = canvas.width() / 2 + std::lround(x);
-  const auto canvas_y = canvas.height() / 2 + std::lround(z);
+  const auto canvas_x = canvas.width() / 2 + iround(x);
+  const auto canvas_y = canvas.height() / 2 + iround(z);
   canvas.write_pixel(canvas_x, canvas_y, Color(1.f, 0.3f, 0.2f));
 }
 
@@ -27,7 +29,7 @@ int main() {
   }
 
   std::ofstream ofs("clock.ppm");
-  ofs << ppm::to_ppm(c);
+  ofs << CanvasUtil::to_ppm(c);
 
   return 0;
 }

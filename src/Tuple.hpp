@@ -57,6 +57,32 @@ struct Tuple {
   float w;
 };
 
+[[nodiscard]] constexpr Tuple operator-(const Tuple& tup) noexcept {
+  return Tuple(-tup.x, -tup.y, -tup.z, -tup.w);
+}
+
+[[nodiscard]] constexpr Tuple operator+(Tuple lhs, const Tuple& rhs) noexcept {
+  lhs += rhs;
+  return lhs;
+}
+
+[[nodiscard]] constexpr Tuple operator-(Tuple lhs, const Tuple& rhs) noexcept {
+  lhs -= rhs;
+  return lhs;
+}
+
+[[nodiscard]] constexpr Tuple operator*(Tuple lhs, float rhs) noexcept {
+  lhs *= rhs;
+  return lhs;
+}
+
+[[nodiscard]] constexpr Tuple operator/(Tuple lhs, float rhs) noexcept {
+  lhs /= rhs;
+  return lhs;
+}
+
+namespace TupleUtil {
+
 [[nodiscard]] constexpr Tuple point(float x, float y, float z) noexcept {
   return Tuple(x, y, z, 1.0f);
 }
@@ -87,30 +113,6 @@ struct Tuple {
   return tup;
 }
 
-[[nodiscard]] constexpr Tuple operator-(const Tuple& tup) noexcept {
-  return Tuple(-tup.x, -tup.y, -tup.z, -tup.w);
-}
-
-[[nodiscard]] constexpr Tuple operator+(Tuple lhs, const Tuple& rhs) noexcept {
-  lhs += rhs;
-  return lhs;
-}
-
-[[nodiscard]] constexpr Tuple operator-(Tuple lhs, const Tuple& rhs) noexcept {
-  lhs -= rhs;
-  return lhs;
-}
-
-[[nodiscard]] constexpr Tuple operator*(Tuple lhs, float rhs) noexcept {
-  lhs *= rhs;
-  return lhs;
-}
-
-[[nodiscard]] constexpr Tuple operator/(Tuple lhs, float rhs) noexcept {
-  lhs /= rhs;
-  return lhs;
-}
-
 [[nodiscard]] constexpr float dot(const Tuple& a, const Tuple& b) noexcept {
   return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
@@ -121,5 +123,7 @@ struct Tuple {
   return vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z,
                 a.x * b.y - a.y * b.x);
 }
+
+}  // namespace TupleUtil
 
 #endif

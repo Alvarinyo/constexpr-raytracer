@@ -95,7 +95,7 @@ SCENARIO("Constructing the PPM header") {
   GIVEN("c <- Canvas(5, 3)") {
     const Canvas c(5, 3);
     WHEN("ppm <- c.to_ppm()") {
-      const std::string ppm = ppm::to_ppm(c);
+      const std::string ppm = CanvasUtil::to_ppm(c);
 
       THEN(R"(lines 1-3 of ppm are: 
             """
@@ -103,8 +103,8 @@ SCENARIO("Constructing the PPM header") {
             5 3
             255
             """)") {
-        const std::string header("P3\n5 3\n255");
-        REQUIRE(std::equal(header.begin(), header.end(), ppm.begin()));
+        const std::string ppm_header("P3\n5 3\n255");
+        REQUIRE(std::equal(ppm_header.begin(), ppm_header.end(), ppm.begin()));
       }
     }
   }
@@ -126,7 +126,7 @@ SCENARIO("Constructing the PPM pixel data") {
       c.write_pixel(0, 0, c1);
       c.write_pixel(2, 1, c2);
       c.write_pixel(4, 2, c3);
-      const std::string ppm = ppm::to_ppm(c);
+      const std::string ppm = CanvasUtil::to_ppm(c);
 
       THEN(R"(lines 4-6 of ppm are: 
             """
@@ -140,8 +140,8 @@ SCENARIO("Constructing the PPM pixel data") {
             "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0\n"
             "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255\n");
 
-        REQUIRE(ppm::payload(c) == expected_payload);
-        REQUIRE(ppm == ppm::header(c) + expected_payload);
+        REQUIRE(CanvasUtil::ppm_payload(c) == expected_payload);
+        REQUIRE(ppm == CanvasUtil::ppm_header(c) + expected_payload);
       }
     }
   }
@@ -152,12 +152,12 @@ SCENARIO("Splitting long lines in PPM files") {
     Canvas c(10, 2);
     WHEN("Every pixel of c is set to Color(1, 0.8, 0.6)")
     AND_WHEN("ppm <- c.to_ppm()") {
-      for (long y = 0; y < c.height(); ++y) {
-        for (long x = 0; x < c.width(); ++x) {
+      for (int y = 0; y < c.height(); ++y) {
+        for (int x = 0; x < c.width(); ++x) {
           c.write_pixel(x, y, Color(1.f, 0.8f, 0.6f));
         }
       }
-      const std::string ppm = ppm::to_ppm(c);
+      const std::string ppm = CanvasUtil::to_ppm(c);
       THEN(R"(lines 4-7 of ppm are: 
             """
             255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
@@ -174,8 +174,8 @@ SCENARIO("Splitting long lines in PPM files") {
             "204\n"
             "153 255 204 153 255 204 153 255 204 153 255 204 153\n");
 
-        REQUIRE(ppm::payload(c) == expected_payload);
-        REQUIRE(ppm == ppm::header(c) + expected_payload);
+        REQUIRE(CanvasUtil::ppm_payload(c) == expected_payload);
+        REQUIRE(ppm == CanvasUtil::ppm_header(c) + expected_payload);
       }
     }
   }
@@ -185,7 +185,7 @@ SCENARIO("PPM files are terminated by a newline character") {
   GIVEN("c <- Canvas(5, 3)") {
     const Canvas c(5, 3);
     WHEN("ppm <- c.to_ppm()") {
-      const std::string ppm = ppm::to_ppm(c);
+      const std::string ppm = CanvasUtil::to_ppm(c);
       THEN("ppm ends with a newline character") { REQUIRE(ppm.back() == '\n'); }
     }
   }

@@ -10,19 +10,19 @@
 template <int Rows, int Cols = Rows>
 class Matrix {
  public:
-  using Storage = std::array<float, static_cast<size_t>(Cols* Rows)>;
+  using storage_t = std::array<float, static_cast<size_t>(Cols* Rows)>;
 
-  using value_type = typename Storage::value_type;
-  using const_reference = typename Storage::const_reference;
-  using difference_type = typename Storage::difference_type;
-  using reference = typename Storage::reference;
-  using size_type = typename Storage::size_type;
-  using iterator = typename Storage::iterator;
-  using const_iterator = typename Storage::const_iterator;
+  using value_type = typename storage_t::value_type;
+  using const_reference = typename storage_t::const_reference;
+  using difference_type = typename storage_t::difference_type;
+  using reference = typename storage_t::reference;
+  using size_type = typename storage_t::size_type;
+  using iterator = typename storage_t::iterator;
+  using const_iterator = typename storage_t::const_iterator;
 
   [[nodiscard]] constexpr Matrix() noexcept = default;
 
-  [[nodiscard]] constexpr Matrix(Storage data) noexcept
+  [[nodiscard]] constexpr Matrix(storage_t data) noexcept
       : storage_(std::move(data)) {}
 
   [[nodiscard]] constexpr Matrix(const Matrix& other) noexcept
@@ -65,7 +65,7 @@ class Matrix {
   }
 
  private:
-  Storage storage_;
+  storage_t storage_;
 };
 
 /*
@@ -222,6 +222,7 @@ template <int Rows, int Cols>
 
   return result;
 }
+
 }  // namespace MatrixUtil
 
 #endif

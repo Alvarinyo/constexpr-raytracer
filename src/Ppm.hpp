@@ -6,14 +6,11 @@
 
 #include "Canvas.hpp"
 
-namespace ppm {
+namespace CanvasUtil {
 
-[[nodiscard]] std::string header(const Canvas& canvas) noexcept {
-  return "P3\n" + std::to_string(canvas.width()) + ' ' +
-         std::to_string(canvas.height()) + "\n255\n";
-}
+namespace detail {
 
-[[nodiscard]] std::string pixel_string(const Canvas& canvas) noexcept {
+[[nodiscard]] std::string ppm_pixel_string(const Canvas& canvas) noexcept {
   static constexpr auto normalize_float = [](float color_value) {
     if (color_value < 0.f) return 0l;
     if (color_value > 1.f) return 255l;
@@ -32,7 +29,7 @@ namespace ppm {
   return pixel_str;
 }
 
-void split_lines(std::string& pixel_string) noexcept {
+void ppm_split_lines(std::string& pixel_string) noexcept {
   ptrdiff_t line_size = 0;
   auto last_whitespace = pixel_string.begin();
   for (auto it = pixel_string.begin(); it != pixel_string.end(); ++it) {
@@ -47,18 +44,25 @@ void split_lines(std::string& pixel_string) noexcept {
   }
 }
 
-[[nodiscard]] std::string payload(const Canvas& canvas) noexcept {
+}  // namespace detail
+
+[[nodiscard]] std::string ppm_header(const Canvas& canvas) noexcept {
+  return "P3\n" + std::to_string(canvas.width()) + ' ' +
+         std::to_string(canvas.height()) + "\n255\n";
+}
+
+[[nodiscard]] std::string ppm_payload(const Canvas& canvas) noexcept {
   if (canvas.empty()) return "";
 
-  auto payload = pixel_string(canvas);
-  split_lines(payload);
+  auto payload = detail::ppm_pixel_string(canvas);
+  detail::ppm_split_lines(payload);
   return payload;
 }
 
 [[nodiscard]] std::string to_ppm(const Canvas& canvas) noexcept {
-  return header(canvas) + payload(canvas);
+  return ppm_header(canvas) + ppm_payload(canvas);
 }
 
-}  // namespace ppm
+}  // namespace CanvasUtil
 
 #endif

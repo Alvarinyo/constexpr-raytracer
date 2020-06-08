@@ -5,6 +5,8 @@
 #include "../src/Ppm.hpp"
 #include "../src/Tuple.hpp"
 
+using namespace TupleUtil;
+
 std::string to_string(const Tuple& tup) {
   return '{' + std::to_string(tup.x) + ", " + std::to_string(tup.y) + ", " +
          std::to_string(tup.z) + ", " + std::to_string(tup.w) + '}';
@@ -32,8 +34,8 @@ int main() {
   Canvas c(800, 600);
 
   for (;;) {
-    const auto pixel_x = lround(p.position.x);
-    const auto pixel_y = c.height() - lround(p.position.y);
+    const auto pixel_x = iround(p.position.x);
+    const auto pixel_y = c.height() - iround(p.position.y);
 
     if (!in_range(c, pixel_x, pixel_y)) break;
 
@@ -45,6 +47,6 @@ int main() {
   }
 
   std::ofstream ostrm("projectile_trace.ppm");
-  ostrm << ppm::to_ppm(c);
+  ostrm << CanvasUtil::to_ppm(c);
   return 0;
 }
