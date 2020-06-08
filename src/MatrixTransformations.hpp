@@ -3,7 +3,7 @@
 
 #include "Matrix.hpp"
 
-namespace Transformations {
+namespace MatrixUtil {
 
 /*
   Forward declarations
@@ -41,35 +41,34 @@ class Transformation : public Matrix<4> {
       : Matrix<4>(std::move(other)) {}
 
   template <strict_float... Args>
-  [[nodiscard]] constexpr Transformation(Args... args)
-      : Matrix<4>{std::forward<Args>(args)...} {}
+  [[nodiscard]] constexpr Transformation(Args... args) : Matrix<4>{args...} {}
 
   [[nodiscard]] constexpr Transformation translation(float x, float y,
                                                      float z) noexcept {
-    return Transformations::translation(x, y, z) * (*this);
+    return MatrixUtil::translation(x, y, z) * (*this);
   }
 
   [[nodiscard]] constexpr Transformation scaling(float x, float y,
                                                  float z) noexcept {
-    return Transformations::scaling(x, y, z) * (*this);
+    return MatrixUtil::scaling(x, y, z) * (*this);
   }
 
   [[nodiscard]] constexpr Transformation rotation_x(float radians) noexcept {
-    return Transformations::rotation_x(radians) * (*this);
+    return MatrixUtil::rotation_x(radians) * (*this);
   }
 
   [[nodiscard]] constexpr Transformation rotation_y(float radians) noexcept {
-    return Transformations::rotation_y(radians) * (*this);
+    return MatrixUtil::rotation_y(radians) * (*this);
   }
 
   [[nodiscard]] constexpr Transformation rotation_z(float radians) noexcept {
-    return Transformations::rotation_z(radians) * (*this);
+    return MatrixUtil::rotation_z(radians) * (*this);
   }
 
   [[nodiscard]] constexpr Transformation shearing(float xy, float xz, float yx,
                                                   float yz, float zx,
                                                   float zy) noexcept {
-    return Transformations::shearing(xy, xz, yx, yz, zx, zy) * (*this);
+    return MatrixUtil::shearing(xy, xz, yx, yz, zx, zy) * (*this);
   }
 };
 
@@ -81,7 +80,7 @@ class Transformation : public Matrix<4> {
 
 [[nodiscard]] constexpr Transformation translation(float x, float y,
                                                    float z) noexcept {
-  Matrix<4> result = MatrixUtils::identity<4>();
+  Matrix<4> result = MatrixUtil::identity<4>();
   result.at(0, 3) = x;
   result.at(1, 3) = y;
   result.at(2, 3) = z;
@@ -149,6 +148,6 @@ class Transformation : public Matrix<4> {
                         zx,  zy, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f};
 }
 
-}  // namespace Transformations
+}  // namespace MatrixUtil
 
 #endif

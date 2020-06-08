@@ -32,8 +32,7 @@ class Matrix {
       : storage_(std::move(other.storage_)) {}
 
   template <strict_float... Args>
-  [[nodiscard]] constexpr Matrix(Args... args)
-      : storage_{std::forward<Args>(args)...} {}
+  [[nodiscard]] constexpr Matrix(Args... args) : storage_{args...} {}
 
   [[nodiscard]] constexpr reference at(int row, int col) noexcept {
     assert(row >= 0 && col >= 0 && row < Rows && col < Cols);
@@ -65,7 +64,7 @@ class Matrix {
     return storage_.cend();
   }
 
- protected:
+ private:
   Storage storage_;
 };
 
@@ -77,7 +76,7 @@ template <int Rows, int Cols>
 [[nodiscard]] constexpr bool operator==(
     const Matrix<Rows, Cols>& lhs, const Matrix<Rows, Cols>& rhs) noexcept {
   return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
-                    [](float a, float b) { return aprox_equal(a, b); });
+                    [](float a, float b) { return approx_equal(a, b); });
 }
 
 template <int A, int B, int C>
@@ -112,7 +111,7 @@ template <int A, int B, int C>
   Matrix non-member functions
 */
 
-namespace MatrixUtils {
+namespace MatrixUtil {
 
 /*
   Forward declarations
@@ -223,6 +222,6 @@ template <int Rows, int Cols>
 
   return result;
 }
-}  // namespace MatrixUtils
+}  // namespace MatrixUtil
 
 #endif

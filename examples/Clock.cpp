@@ -19,7 +19,7 @@ int main() {
   const auto radius = static_cast<float>(c.width()) * (3.f / 8.f);
   auto clock_hand = point(0.f, 0.f, 1.f) * radius;
   const auto one_hour_rotation =
-      Transformations::rotation_y(std::numbers::pi_v<float> / 6.f);
+      MatrixUtil::rotation_y(std::numbers::pi_v<float> / 6.f);
 
   for (int i = 0; i <= 11; ++i) {
     paint_point(c, clock_hand.x, clock_hand.z);

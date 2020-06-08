@@ -45,10 +45,10 @@ struct Tuple {
 
   [[nodiscard]] friend constexpr bool operator==(const Tuple& lhs,
                                                  const Tuple& rhs) noexcept {
-    return aprox_equal(lhs.x, rhs.x, 0.00001f) &&
-           aprox_equal(lhs.y, rhs.y, 0.00001f) &&
-           aprox_equal(lhs.z, rhs.z, 0.00001f) &&
-           aprox_equal(lhs.w, rhs.w, 0.00001f);
+    return approx_equal(lhs.x, rhs.x, 0.00001f) &&
+           approx_equal(lhs.y, rhs.y, 0.00001f) &&
+           approx_equal(lhs.z, rhs.z, 0.00001f) &&
+           approx_equal(lhs.w, rhs.w, 0.00001f);
   }
 
   float x;
@@ -66,11 +66,11 @@ struct Tuple {
 }
 
 [[nodiscard]] constexpr bool is_point(const Tuple& tup) noexcept {
-  return aprox_equal(tup.w, 1.0f, 0.00001f);
+  return approx_equal(tup.w, 1.0f, 0.00001f);
 }
 
 [[nodiscard]] constexpr bool is_vector(const Tuple& tup) noexcept {
-  return aprox_equal(tup.w, 0.0f, 0.00001f);
+  return approx_equal(tup.w, 0.0f, 0.00001f);
 }
 
 [[nodiscard]] constexpr float magnitude(const Tuple& tup) noexcept {

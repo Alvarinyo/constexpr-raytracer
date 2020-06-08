@@ -202,7 +202,7 @@ SCENARIO("Normalizing some vectors") {
     WHEN("norm <- v.get_normalized()") {
       constexpr auto norm = normalize(v);
       THEN("norm = aproximately vector(0.26726, 0.53452, 0.80178)") {
-        STATIC_REQUIRE(aprox_equal(magnitude(norm), 1.0f, 0.00001f));
+        STATIC_REQUIRE(approx_equal(magnitude(norm), 1.0f, 0.00001f));
       }
     }
   }
