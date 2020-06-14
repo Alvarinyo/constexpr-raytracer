@@ -10,8 +10,8 @@
 using namespace TupleUtil;
 
 void paint_point(Canvas& canvas, float x, float z) {
-  const auto canvas_x = canvas.width() / 2 + iround(x);
-  const auto canvas_y = canvas.height() / 2 + iround(z);
+  const auto canvas_x = canvas.width() / 2 + MathUtil::iround(x);
+  const auto canvas_y = canvas.height() / 2 + MathUtil::iround(z);
   canvas.write_pixel(canvas_x, canvas_y, Color(1.f, 0.3f, 0.2f));
 }
 

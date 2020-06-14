@@ -50,6 +50,8 @@ struct Color {
 
   [[nodiscard]] friend constexpr bool operator==(const Color& lhs,
                                                  const Color& rhs) noexcept {
+    using namespace MathUtil;
+
     return approx_equal(lhs.red, rhs.red) &&
            approx_equal(lhs.green, rhs.green) &&
            approx_equal(lhs.blue, rhs.blue);

@@ -31,7 +31,17 @@ class Matrix {
   [[nodiscard]] constexpr Matrix(Matrix&& other) noexcept
       : storage_(std::move(other.storage_)) {}
 
-  template <strict_float... Args>
+  constexpr Matrix& operator=(const Matrix& other) noexcept {
+    storage_ = other.storage_;
+    return *this;
+  };
+
+  constexpr Matrix& operator=(Matrix&& other) noexcept {
+    storage_ = std::move(other.storage_);
+    return *this;
+  };
+
+  template <MathUtil::strict_float... Args>
   [[nodiscard]] constexpr Matrix(Args... args) : storage_{args...} {}
 
   [[nodiscard]] constexpr reference at(int row, int col) noexcept {
@@ -75,8 +85,9 @@ class Matrix {
 template <int Rows, int Cols>
 [[nodiscard]] constexpr bool operator==(
     const Matrix<Rows, Cols>& lhs, const Matrix<Rows, Cols>& rhs) noexcept {
-  return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
-                    [](float a, float b) { return approx_equal(a, b); });
+  return std::equal(lhs.begin(), lhs.end(), rhs.begin(), [](float a, float b) {
+    return MathUtil::approx_equal(a, b);
+  });
 }
 
 template <int A, int B, int C>

@@ -4,6 +4,7 @@
 #include "../src/Tuple.hpp"
 
 using namespace MatrixUtil;
+using namespace MathUtil;
 
 SCENARIO("Constructing and inspecting a 4x4 matrix") {
   GIVEN("The following 4x4 matrix M") {

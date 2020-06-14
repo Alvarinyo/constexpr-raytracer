@@ -34,8 +34,8 @@ int main() {
   Canvas c(800, 600);
 
   for (;;) {
-    const auto pixel_x = iround(p.position.x);
-    const auto pixel_y = c.height() - iround(p.position.y);
+    const auto pixel_x = MathUtil::iround(p.position.x);
+    const auto pixel_y = c.height() - MathUtil::iround(p.position.y);
 
     if (!in_range(c, pixel_x, pixel_y)) break;
 

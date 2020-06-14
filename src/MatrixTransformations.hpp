@@ -40,7 +40,19 @@ class Transformation : public Matrix<4> {
   [[nodiscard]] constexpr Transformation(Matrix<4>&& other) noexcept
       : Matrix<4>(std::move(other)) {}
 
-  template <strict_float... Args>
+  [[nodiscard]] constexpr Transformation(const Transformation& other) noexcept
+      : Matrix<4>(other) {}
+
+  [[nodiscard]] constexpr Transformation(Transformation&& other) noexcept
+      : Matrix<4>(std::move(other)) {}
+
+  constexpr Transformation& operator=(const Transformation& other) noexcept =
+      default;
+
+  constexpr Transformation& operator=(Transformation&& other) noexcept =
+      default;
+
+  template <MathUtil::strict_float... Args>
   [[nodiscard]] constexpr Transformation(Args... args) : Matrix<4>{args...} {}
 
   [[nodiscard]] constexpr Transformation translation(float x, float y,
