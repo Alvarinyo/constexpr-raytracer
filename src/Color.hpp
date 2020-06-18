@@ -87,4 +87,14 @@ struct Color {
   return lhs;
 }
 
+namespace ColorUtil {
+
+[[nodiscard]] constexpr Color black() noexcept { return Color(0.f, 0.f, 0.f); }
+[[nodiscard]] constexpr Color white() noexcept { return Color(1.f, 1.f, 1.f); }
+[[nodiscard]] constexpr Color red() noexcept { return Color(1.f, 0.f, 0.f); }
+[[nodiscard]] constexpr Color green() noexcept { return Color(0.f, 1.f, 0.f); }
+[[nodiscard]] constexpr Color blue() noexcept { return Color(0.f, 0.f, 1.f); }
+
+}  // namespace ColorUtil
+
 #endif

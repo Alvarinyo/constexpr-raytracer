@@ -126,6 +126,14 @@ namespace TupleUtil {
                 a.x * b.y - a.y * b.x);
 }
 
+[[nodiscard]] constexpr Tuple reflect(const Tuple& in,
+                                      const Tuple& normal) noexcept {
+  assert(is_vector(in));
+  assert(is_vector(normal));
+
+  return in - normal * 2 * dot(in, normal);
+}
+
 }  // namespace TupleUtil
 
 #endif

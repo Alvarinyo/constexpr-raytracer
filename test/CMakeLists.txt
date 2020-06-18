@@ -15,7 +15,8 @@ add_executable(tests
   CanvasTests.cpp 
   MatrixTests.cpp 
   MatrixTransformationsTests.cpp 
-  RayTests.cpp)
+  RayTests.cpp
+  SphereTests.cpp)
 target_link_libraries(tests PRIVATE project_warnings project_options
                                     catch_main)
 

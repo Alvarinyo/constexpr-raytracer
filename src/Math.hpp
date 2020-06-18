@@ -11,7 +11,7 @@ template <class T>
 concept strict_float = std::is_same_v<T, float>;
 
 constexpr bool approx_equal(float a, float b,
-                            float epsilon = 0.00001f) noexcept {
+                            float epsilon = 0.0001f) noexcept {
   return std::abs(a - b) < epsilon;
 }
 
