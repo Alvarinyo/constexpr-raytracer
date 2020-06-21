@@ -6,6 +6,7 @@
 
 #include "MatrixTransformations.hpp"
 #include "Shape.hpp"
+#include "StaticVector.hpp"
 #include "Tuple.hpp"
 
 struct Ray {
@@ -15,6 +16,8 @@ struct Ray {
 
 class Intersection {
  public:
+  [[nodiscard]] constexpr Intersection() noexcept = default;
+
   [[nodiscard]] constexpr Intersection(float t, ShapeType object) noexcept
       : t_{t}, object_type_{object} {}
 
@@ -33,8 +36,8 @@ class Intersection {
   }
 
  private:
-  float t_;
-  ShapeType object_type_;
+  float t_{0.f};
+  ShapeType object_type_{ShapeType::Sphere};
 };
 
 namespace RayUtil {
@@ -80,7 +83,7 @@ requires(std::is_same_v<typename IntersectionList::value_type, Intersection>)
 
 [[nodiscard]] constexpr auto intersect(const Ray& ray,
                                        const Sphere& sphere) noexcept
-    -> std::optional<std::array<Intersection, 2>> {
+    -> StaticVector<Intersection, 2> {
   using namespace TupleUtil;
   using namespace MathUtil;
 
@@ -94,11 +97,11 @@ requires(std::is_same_v<typename IntersectionList::value_type, Intersection>)
   const auto c = dot(sphere_to_ray, sphere_to_ray) - 1;
 
   const auto discriminant = b * b - 4 * a * c;
-  if (discriminant < 0) return std::nullopt;
+  if (discriminant < 0) return StaticVector<Intersection, 2>();
 
-  return std::optional(std::array{
+  return StaticVector<Intersection, 2>{
       Intersection((-b - sqrt(discriminant)) / (2 * a), ShapeType::Sphere),
-      Intersection((-b + sqrt(discriminant)) / (2 * a), ShapeType::Sphere)});
+      Intersection((-b + sqrt(discriminant)) / (2 * a), ShapeType::Sphere)};
 }
 
 }  // namespace RayUtil

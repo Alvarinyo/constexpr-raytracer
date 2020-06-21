@@ -49,11 +49,11 @@ SCENARIO("A ray intersects a sphere at two points") {
       THEN("xs.count = 2")
       AND_THEN("xs[0] = 4.0")
       AND_THEN("xs[1] = 6.0") {
-        STATIC_REQUIRE(intersection.has_value());
-        STATIC_REQUIRE(intersection->size() == 2);
-        STATIC_REQUIRE((*intersection)[0] ==
+        STATIC_REQUIRE_FALSE(intersection.empty());
+        STATIC_REQUIRE(intersection.size() == 2);
+        STATIC_REQUIRE(intersection[0] ==
                        Intersection(4.0f, ShapeType::Sphere));
-        STATIC_REQUIRE((*intersection)[1] ==
+        STATIC_REQUIRE(intersection[1] ==
                        Intersection(6.0f, ShapeType::Sphere));
       }
     }
@@ -70,11 +70,11 @@ SCENARIO("A ray intersects a sphere at a tangent") {
       THEN("xs.count = 2")
       AND_THEN("xs[0] = 5.0")
       AND_THEN("xs[1] = 5.0") {
-        STATIC_REQUIRE(intersection.has_value());
-        STATIC_REQUIRE(intersection->size() == 2);
-        STATIC_REQUIRE((*intersection)[0] ==
+        STATIC_REQUIRE_FALSE(intersection.empty());
+        STATIC_REQUIRE(intersection.size() == 2);
+        STATIC_REQUIRE(intersection[0] ==
                        Intersection(5.0f, ShapeType::Sphere));
-        STATIC_REQUIRE((*intersection)[1] ==
+        STATIC_REQUIRE(intersection[1] ==
                        Intersection(5.0f, ShapeType::Sphere));
       }
     }
@@ -88,7 +88,7 @@ SCENARIO("A ray misses a sphere") {
     constexpr Sphere s;
     WHEN("xs <- intersect(s, r)") {
       constexpr auto intersection = intersect(r, s);
-      THEN("xs.count = 0") { STATIC_REQUIRE_FALSE(intersection.has_value()); }
+      THEN("xs.count = 0") { STATIC_REQUIRE(intersection.empty()); }
     }
   }
 }
@@ -103,11 +103,11 @@ SCENARIO("A ray originates inside a sphere") {
       THEN("xs.count = 2")
       AND_THEN("xs[0] = -1.0")
       AND_THEN("xs[1] = 1.0") {
-        STATIC_REQUIRE(intersection.has_value());
-        STATIC_REQUIRE(intersection->size() == 2);
-        STATIC_REQUIRE((*intersection)[0] ==
+        STATIC_REQUIRE_FALSE(intersection.empty());
+        STATIC_REQUIRE(intersection.size() == 2);
+        STATIC_REQUIRE(intersection[0] ==
                        Intersection(-1.0f, ShapeType::Sphere));
-        STATIC_REQUIRE((*intersection)[1] ==
+        STATIC_REQUIRE(intersection[1] ==
                        Intersection(1.0f, ShapeType::Sphere));
       }
     }
@@ -124,11 +124,11 @@ SCENARIO("A sphere is behind a ray") {
       THEN("xs.count = 2")
       AND_THEN("xs[0] = -6.0")
       AND_THEN("xs[1] = -4.0") {
-        STATIC_REQUIRE(intersection.has_value());
-        STATIC_REQUIRE(intersection->size() == 2);
-        STATIC_REQUIRE((*intersection)[0] ==
+        STATIC_REQUIRE_FALSE(intersection.empty());
+        STATIC_REQUIRE(intersection.size() == 2);
+        STATIC_REQUIRE(intersection[0] ==
                        Intersection(-6.0f, ShapeType::Sphere));
-        STATIC_REQUIRE((*intersection)[1] ==
+        STATIC_REQUIRE(intersection[1] ==
                        Intersection(-4.0f, ShapeType::Sphere));
       }
     }
@@ -180,10 +180,10 @@ SCENARIO("Intersect sets the object on the intersection") {
       THEN("xs.count = 2")
       AND_THEN("xs[0].object = s")
       AND_THEN("xs[1].object = s") {
-        STATIC_REQUIRE(xs.has_value());
-        STATIC_REQUIRE((*xs).size() == 2);
+        STATIC_REQUIRE_FALSE(xs.empty());
+        STATIC_REQUIRE(xs.size() == 2);
         STATIC_REQUIRE(
-            std::all_of(xs->cbegin(), xs->cend(), [](const auto& intersection) {
+            std::all_of(xs.cbegin(), xs.cend(), [](const auto& intersection) {
               return intersection.object_type() == ShapeType::Sphere;
             }));
       }
@@ -340,9 +340,9 @@ SCENARIO("Intersecting a scaled sphere with a ray") {
       THEN("xs.count = 2")
       AND_THEN("xs[0].t = 3")
       AND_THEN("xs[1].t = 7") {
-        STATIC_REQUIRE(xs.has_value());
-        STATIC_REQUIRE((*xs)[0].t() == 3);
-        STATIC_REQUIRE((*xs)[1].t() == 7);
+        STATIC_REQUIRE_FALSE(xs.empty());
+        STATIC_REQUIRE(xs[0].t() == 3);
+        STATIC_REQUIRE(xs[1].t() == 7);
       }
     }
   }
@@ -361,7 +361,7 @@ SCENARIO("Intersecting a translated sphere with a ray") {
       }();
       constexpr auto xs = intersect(r, s2);
 
-      THEN("xs.count = 0") { STATIC_REQUIRE_FALSE(xs.has_value()); }
+      THEN("xs.count = 0") { STATIC_REQUIRE(xs.empty()); }
     }
   }
 }

@@ -1,5 +1,4 @@
 #include <catch2/catch.hpp>
-#include <iostream>
 #include <numbers>
 
 #include "../src/Math.hpp"
@@ -252,7 +251,6 @@ SCENARIO("Lighting with eye opposite surface, light offset 45º") {
   }
 }
 
-#define constexpr const
 SCENARIO("Lighting with eye in the path of the reflection vector") {
   GIVEN("m <- material()")
   AND_GIVEN("position <- point(0, 0, 0)")
@@ -269,9 +267,7 @@ SCENARIO("Lighting with eye in the path of the reflection vector") {
     WHEN("result <- lighting(m, light, position, eyev, normalv)") {
       constexpr auto result = lighting(m, light, position, eyev, normalv);
       THEN("result = color(1.6364f, 1.6364f, 1.6364f)") {
-        std::cout << result.red << " " << result.green << " " << result.blue
-                  << "\n";
-        REQUIRE(result == Color(1.6364f, 1.6364f, 1.6364f));
+        STATIC_REQUIRE(result == Color(1.6364f, 1.6364f, 1.6364f));
       }
     }
   }
@@ -293,7 +289,7 @@ SCENARIO("Lighting with the light behind the surface") {
     WHEN("result <- lighting(m, light, position, eyev, normalv)") {
       constexpr auto result = lighting(m, light, position, eyev, normalv);
       THEN("result = color(0.1f, 0.1f, 0.1f)") {
-        REQUIRE(result == Color(0.1f, 0.1f, 0.1f));
+        STATIC_REQUIRE(result == Color(0.1f, 0.1f, 0.1f));
       }
     }
   }
